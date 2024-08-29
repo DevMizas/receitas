@@ -22,8 +22,9 @@ Meal _$MealFromJson(Map<String, dynamic> json) => Meal(
       isLactoseFree: json['isLactoseFree'] as bool,
       isVegan: json['isVegan'] as bool,
       isVegetarian: json['isVegetarian'] as bool,
-      complexity: $enumDecode(_$ComplexityEnumMap, json['complexity']),
-      cost: $enumDecode(_$CostEnumMap, json['cost']),
+      complexity: json['complexity'] as String,
+      cost: json['cost'] as String,
+      isFavorite: json['isFavorite'] as bool,
     );
 
 Map<String, dynamic> _$MealToJson(Meal instance) => <String, dynamic>{
@@ -38,18 +39,7 @@ Map<String, dynamic> _$MealToJson(Meal instance) => <String, dynamic>{
       'isLactoseFree': instance.isLactoseFree,
       'isVegan': instance.isVegan,
       'isVegetarian': instance.isVegetarian,
-      'complexity': _$ComplexityEnumMap[instance.complexity]!,
-      'cost': _$CostEnumMap[instance.cost]!,
+      'isFavorite': instance.isFavorite,
+      'complexity': instance.complexity,
+      'cost': instance.cost,
     };
-
-const _$ComplexityEnumMap = {
-  Complexity.simple: 'simple',
-  Complexity.medium: 'medium',
-  Complexity.difficult: 'difficult',
-};
-
-const _$CostEnumMap = {
-  Cost.cheap: 'cheap',
-  Cost.fair: 'fair',
-  Cost.expensive: 'expensive',
-};

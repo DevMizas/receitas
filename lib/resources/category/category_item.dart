@@ -25,7 +25,7 @@ class CategoryItem extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
           image: DecorationImage(
-            image: AssetImage(category.urlImage),
+            image: NetworkImage(category.urlImage),
             fit: BoxFit.cover,
           ),
         ),

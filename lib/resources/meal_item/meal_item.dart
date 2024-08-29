@@ -41,7 +41,7 @@ class MealItem extends StatelessWidget {
                     topLeft: Radius.circular(20),
                     topRight: Radius.circular(20),
                   ),
-                  child: Image.asset(
+                  child: Image.network(
                     meal.imageUrl,
                     height: 250,
                     width: double.infinity,
@@ -87,14 +87,14 @@ class MealItem extends StatelessWidget {
                     children: [
                       const Icon(Icons.work),
                       const SizedBox(width: 6),
-                      Text(meal.complexityText),
+                      Text(meal.complexity),
                     ],
                   ),
                   Row(
                     children: [
                       const Icon(Icons.attach_money_rounded),
                       const SizedBox(width: 6),
-                      Text(meal.costText),
+                      Text(meal.cost),
                     ],
                   ),
                 ],

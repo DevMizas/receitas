@@ -1,6 +1,4 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:receitas/models/meal/complexity_enum.dart';
-import 'package:receitas/models/meal/cost_enum.dart';
 part 'meal.g.dart';
 
 @JsonSerializable()
@@ -17,8 +15,9 @@ class Meal {
   final bool isLactoseFree;
   final bool isVegan;
   final bool isVegetarian;
-  final Complexity complexity;
-  final Cost cost;
+  final bool isFavorite;
+  final String complexity;
+  final String cost;
 
   const Meal({
     required this.id,
@@ -34,35 +33,10 @@ class Meal {
     required this.isVegetarian,
     required this.complexity,
     required this.cost,
+    required this.isFavorite,
   });
 
   factory Meal.fromJson(Map<String, dynamic> json) =>
 			_$MealFromJson(json);
 	Map<String, dynamic> toJson() => _$MealToJson(this);
-
-  String get complexityText {
-    switch (complexity) {
-      case Complexity.simple:
-        return 'Simples';
-      case Complexity.medium:
-        return 'Médio';
-      case Complexity.difficult:
-        return 'Difícil';
-      default:
-        return 'Desconhecida';
-    }
-  }
-
-  String get costText {
-    switch (cost) {
-      case Cost.cheap:
-        return 'Barato';
-      case Cost.fair:
-        return 'Justo';
-      case Cost.expensive:
-        return 'Caro';
-      default:
-        return 'Desconhecido';
-    }
-  }
 }

@@ -3,8 +3,8 @@ import 'package:receitas/models/models.dart';
 import 'package:receitas/resources/resources.dart';
 
 class SettingsPage extends StatefulWidget {
-  final Settings settings;
-  final Function(Settings) onSettingsChanged;
+  final SettingsFilter settings;
+  final Function(SettingsFilter) onSettingsChanged;
 
   const SettingsPage(this.settings, this.onSettingsChanged);
 
@@ -13,7 +13,7 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  late Settings settings;
+  late SettingsFilter settings;
 
   @override
   void initState() {

@@ -1,17 +1,17 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:receitas/models/models.dart';
 
 class MealDetailPage extends StatefulWidget {
-  final Function(Meal) onToogleFavorite;
-  final bool Function(Meal) isFavorte;
-
-  const MealDetailPage(this.onToogleFavorite, this.isFavorte, {super.key});
+  const MealDetailPage({super.key});
 
   @override
   State<MealDetailPage> createState() => _MealDetailPageState();
 }
 
 class _MealDetailPageState extends State<MealDetailPage> {
+  FirebaseFirestore db = FirebaseFirestore.instance;
+
   Widget _createSectionTitle(BuildContext context, String title) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10),
@@ -40,6 +40,33 @@ class _MealDetailPageState extends State<MealDetailPage> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    db.collection("meal").snapshots().listen((event) {});
+  }
+
+  void _sendFavorite(Meal meal) {
+    setState(() {
+      db.collection("meal").doc(meal.id).set({
+        "id": meal.id,
+        "categories": meal.categories,
+        "title": meal.title,
+        "imageUrl": meal.imageUrl,
+        "ingredients": meal.ingredients,
+        "steps": meal.steps,
+        "duration": meal.duration,
+        "isFavorite": meal.isFavorite == true ? false : true,
+        "isGlutenFree": meal.isGlutenFree,
+        "isLactoseFree": meal.isLactoseFree,
+        "isVegan": meal.isVegan,
+        "isVegetarian": meal.isVegetarian,
+        "complexity": meal.complexity,
+        "cost": meal.cost,
+      });
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     final meal = ModalRoute.of(context)?.settings.arguments as Meal;
 
@@ -55,7 +82,7 @@ class _MealDetailPageState extends State<MealDetailPage> {
             SizedBox(
               height: 300,
               width: double.infinity,
-              child: Image.asset(
+              child: Image.network(
                 meal.imageUrl,
                 fit: BoxFit.cover,
               ),
@@ -89,7 +116,8 @@ class _MealDetailPageState extends State<MealDetailPage> {
                     children: [
                       ListTile(
                         leading: CircleAvatar(
-                          backgroundColor: const Color.fromARGB(255, 92, 217, 255),
+                          backgroundColor:
+                              const Color.fromARGB(255, 92, 217, 255),
                           child: Text('${index + 1}'),
                         ),
                         title: Text(meal.steps[index]),
@@ -106,10 +134,12 @@ class _MealDetailPageState extends State<MealDetailPage> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color.fromARGB(255, 92, 217, 255),
         onPressed: () {
-          widget.onToogleFavorite(meal);
+          setState(() {
+            _sendFavorite(meal);
+          });
         },
         child: Icon(
-          widget.isFavorte(meal) ? Icons.favorite : Icons.favorite_border,
+          meal.isFavorite == true ? Icons.favorite : Icons.favorite_border,
           color: Colors.pink,
         ),
       ),
